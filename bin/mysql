@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+TAG=latest
+BRANCH=master
+
+if [ "self-update" = "$1" ]; then
+    docker pull mkenney/mysql-client:$TAG
+    wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-mysql-client/$BRANCH/bin/mysql && exit 0
+else
+    docker run --rm -t -i -v $(pwd):/src:ro -v $HOME/.my.cnf:/home/dev/.my.cnf mkenney/mysql-client:$TAG $@
+fi
