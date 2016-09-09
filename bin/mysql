@@ -10,5 +10,11 @@ if [ "self-update" = "$1" ]; then
         && rm /tmp/$(basename $0) \
         && exit 0
 else
-    docker run --rm -t -i -v $(pwd):/src:ro -v $HOME/.my.cnf:/home/dev/.my.cnf mkenney/mysql-client:$TAG $@
+    touch $HOME/.mysql_history
+    docker run --rm -ti \
+        -v $(pwd):/src:ro \
+        -v $HOME/.ssh:/home/dev/.ssh:ro \
+        -v $HOME/.my.cnf:/home/dev/.my.cnf:ro \
+        -v $HOME/.mysql_history:/home/dev/.mysql_history:rw \
+        mkenney/mysql-client:$TAG $@
 fi
