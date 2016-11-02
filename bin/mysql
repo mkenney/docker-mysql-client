@@ -11,7 +11,13 @@ if [ "self-update" = "$1" ]; then
         && exit 0
 else
     touch $HOME/.mysql_history
-    docker run --rm -ti \
+    if [ -t 0 ]; then
+        term_type=ti
+    else
+        term_type=i
+    fi
+    docker run --rm \
+        -$term_type \
         --net=host \
         -v $(pwd):/src:ro \
         -v $HOME/.ssh:/home/dev/.ssh:ro \
