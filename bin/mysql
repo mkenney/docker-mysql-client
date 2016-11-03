@@ -20,8 +20,7 @@ else
         -$term_type \
         --net=host \
         -v $(pwd):/src:ro \
-        -v $HOME/.ssh:/home/dev/.ssh:ro \
-        -v $HOME/.my.cnf:/home/dev/.my.cnf:ro \
-        -v $HOME/.mysql_history:/home/dev/.mysql_history:rw \
+        -v $HOME/.my.cnf:/root/.my.cnf:ro \
+        -v $HOME/.mysql_history:/root/.mysql_history:rw \
         mkenney/mysql-client:$TAG $@
 fi

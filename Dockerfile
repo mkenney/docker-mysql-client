@@ -8,6 +8,7 @@ ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TIMEZONE America/Denver
 
+COPY ./container/.my.cnf /root/.my.cnf
 
 RUN set -x \
     && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
@@ -17,28 +18,8 @@ RUN set -x \
         curl \
         mysql-client \
         shadow \
-        sudo \
-
-##############################################################################
-# users
-##############################################################################
-
-    # Create a dev user to use as the directory owner
-    && addgroup dev \
-    && adduser -D -s /bin/sh -G dev dev \
-    && echo "dev:password" | chpasswd \
-
-    # Setup wrapper scripts
-    && curl -o /run-as-user https://raw.githubusercontent.com/mkenney/docker-scripts/master/container/run-as-user \
-    && chmod 0755 /run-as-user \
-
-##############################################################################
-# ~ fin ~
-##############################################################################
-
     && apk del \
         curl \
-
     && rm -rf \
         /tmp/* \
         /var/cache/apk/*
@@ -46,4 +27,4 @@ RUN set -x \
 VOLUME /src
 WORKDIR /src
 
-ENTRYPOINT ["/run-as-user", "/usr/bin/mysql"]
+ENTRYPOINT ["/usr/bin/mysql"]
