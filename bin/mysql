@@ -2,7 +2,7 @@
 
 TAG=latest
 BRANCH=master
-echo 'runnig via docker...'
+
 if [ "self-update" = "$1" ]; then
     docker pull mkenney/mysql-client:$TAG
     wget -nv -O /tmp/$(basename $0) https://raw.githubusercontent.com/mkenney/docker-mysql-client/$BRANCH/bin/mysql \
@@ -19,7 +19,6 @@ else
     docker run --rm \
         -$term_type \
         --net=host \
-        -v $(pwd):/src:ro \
         -v $HOME/.my.cnf:/root/.my.cnf:ro \
         -v $HOME/.mysql_history:/root/.mysql_history:rw \
         mkenney/mysql-client:$TAG $@

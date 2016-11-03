@@ -24,7 +24,4 @@ RUN set -x \
         /tmp/* \
         /var/cache/apk/*
 
-VOLUME /src
-WORKDIR /src
-
 ENTRYPOINT ["/usr/bin/mysql"]
